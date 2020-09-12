@@ -1,6 +1,7 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
 const config=require('../config')
 const path = require('path')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 exports.assetsPath=function(_path){
     const assetsSubDirectory=process.env.NODE_ENV==='production'
         ?config.build.assetsSubDirectory
@@ -9,7 +10,9 @@ exports.assetsPath=function(_path){
 }
 exports.cssLoaders=function(options){
     options=options||{};
-
+    const styleLoaders={
+        loader:'style-loader',
+    }
     const cssLoader={
         loader:'css-loader',
         options:{
@@ -19,12 +22,13 @@ exports.cssLoaders=function(options){
     const postcssLoader={
         loader:'postcss-loader',
         options:{
-            sourceMap:options.sourceMap
+            sourceMap:options.sourceMap,
+            autoprefixer: {browsers: 'last 5 version'}
         }
     }
 
     function generateLoaders(loader,loaderOptions){
-        const loaders=options.usePostCSS?[cssLoader,postcssLoader]:[cssLoader];
+        const loaders=options.usePostCSS?[styleLoaders,cssLoader,postcssLoader]:[styleLoaders,cssLoader];
         if(loader){
             loaders.push({
                 loader:loader+'-loader',
@@ -34,26 +38,24 @@ exports.cssLoaders=function(options){
             })
         }
         if(options.extract){
-            return ExtractTextPlugin.extract({
-                use:loaders,
-                publicPath:'../../'
+            loaders.unshift({
+                loader:MiniCssExtractPlugin.loader,
+                options:Object.assign({},loaderOptions,{
+                    sourceMap:options.sourceMap
+                })
             })
         }
+        return loaders
     }
     return {
         css:generateLoaders(),
         postcss:generateLoaders(),
-        less: generateLoaders('less'),
-        sass: generateLoaders('sass', { indentedSyntax: true }),
-        scss: generateLoaders('sass'),
-        stylus: generateLoaders('stylus'),
-        styl: generateLoaders('stylus')
+        stylus:generateLoaders('stylus')
     }
 }
 exports.styleLoaders=function(options){
     const output=[];
     const loaders=exports.cssLoaders(options);
-
     for(const extension in loaders){
         const loader=loaders[extension];
         output.push({
@@ -61,6 +63,5 @@ exports.styleLoaders=function(options){
             use:loader
         })
     }
-
     return output;
 }

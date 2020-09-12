@@ -1,7 +1,9 @@
-const path = require('path');
+const path = require('path')
 const config =require('../config')
-const resolve=path.resolve
 
+function resolve (dir) {
+    return path.join(__dirname, '..', dir)
+}
 module.exports = {
     entry: {
         app:'./src/index.js'
@@ -14,7 +16,10 @@ module.exports = {
           : config.dev.assetsPublicPath
     },
     resolve: {
-        extensions: ['.js', '.json','.jsx'],
+        extensions: ['.js', '.json','.jsx','.css'],
+        alias:{
+            '@':resolve('src')
+        }
     },
     node: {
         setImmediate: false,
@@ -36,6 +41,15 @@ module.exports = {
                 }],
                 exclude: /node_modules/
             },
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: [
+                  {
+                    loader: 'file-loader',
+                    options: {}
+                  }
+                ]
+            }
         ]
     }
 }

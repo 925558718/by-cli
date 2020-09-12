@@ -1,4 +1,6 @@
 import React from 'react'
+import Click from '@/components/click'
+import vue from '@/assets/vue.jpg'
 class App extends React.Component {
     constructor(){
       super()
@@ -6,7 +8,11 @@ class App extends React.Component {
     }
     render() {
       return (
-        <div>success</div>
+        <div>
+          <img src={vue}></img>
+          <Click></Click>
+        </div>
+        
       )
     }
   }

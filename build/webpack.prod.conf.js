@@ -6,7 +6,7 @@ const path = require('path')
 const config=require('../config')
 const webpack=require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -34,14 +34,15 @@ const webpackConfig=merge(baseWebpackConfig,{
         new webpack.DefinePlugin({
             'process.env':env
         }),
-        new ExtractTextPlugin({
-            filename:utils.assetsPath('css/[name].[contenthash].css'),
-            allChunks:true
-        }),
+        
         new OptimizeCSSPlugin({
             cssProcessorOptions:config.build.productionSourceMap
             ?{safe: true, map: {inline: false}}
             :{safe: true}
+        }),
+        new MiniCssExtractPlugin({
+            filename: utils.assetsPath("css/[name].css"),
+            chunkFilename: utils.assetsPath("css/[id].css")
         }),
         new HtmlWebpackPlugin({
             filename: process.env.NODE_ENV==='testing'
@@ -67,8 +68,16 @@ const webpackConfig=merge(baseWebpackConfig,{
                     test: /[\\/]node_modules[\\/]/,
                     name: 'common',
                     chunks: 'initial',
-                    
-                  }
+                    priority: 10
+                },
+                react: {
+                    name: 'reactBase',
+                    test: (module) => {
+                        return /react|react-dom|prop-types/.test(module.context);
+                    },
+                    chunks: 'initial',
+                    priority: 100
+                }
             }
         },
         minimizer:[
