@@ -1,18 +1,15 @@
 import React from 'react'
-import Click from '@/components/click'
-import vue from '@/assets/vue.jpg'
+import Todo from '@/components/Todo'
+
 class App extends React.Component {
     constructor(){
-      super()
-  
+      super();
     }
     render() {
       return (
         <div>
-          <img src={vue}></img>
-          <Click></Click>
+            <Todo></Todo>
         </div>
-        
       )
     }
   }

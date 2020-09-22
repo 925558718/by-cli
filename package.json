@@ -6,7 +6,10 @@
   "dependencies": {
     "babel-preset-stage-0": "^6.24.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5",
+    "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
@@ -20,6 +23,7 @@
     "compression-webpack-plugin": "^5.0.2",
     "copy-webpack-plugin": "^6.1.0",
     "css-loader": "^4.2.2",
+    "eslint": "^7.8.1",
     "file-loader": "^6.1.0",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "happypack": "^5.0.1",
@@ -29,6 +33,7 @@
     "ora": "^5.0.0",
     "portfinder": "^1.0.28",
     "postcss-loader": "^3.0.0",
+    "redux-devtools": "^3.7.0",
     "rimraf": "^3.0.2",
     "style-loader": "^1.2.1",
     "stylus": "^0.54.8",

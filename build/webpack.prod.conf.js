@@ -44,12 +44,6 @@ const webpackConfig=merge(baseWebpackConfig,{
             filename: utils.assetsPath("css/[name].css"),
             chunkFilename: utils.assetsPath("css/[id].css")
         }),
-        new HtmlWebpackPlugin({
-            filename: process.env.NODE_ENV==='testing'
-            ? 'index.html':
-             config.build.index,
-             template: 'index.html',
-        }),
         new CopyWebpackPlugin({
             patterns:[
                 {
@@ -57,7 +51,13 @@ const webpackConfig=merge(baseWebpackConfig,{
                     to: config.build.assetsSubDirectory,
                 }
             ]
-        })
+        }),
+        new HtmlWebpackPlugin({
+            filename: process.env.NODE_ENV==='testing'
+            ? 'index.html':
+             config.build.index,
+             template: 'index.html',
+        }),
 
     ],
     optimization: {

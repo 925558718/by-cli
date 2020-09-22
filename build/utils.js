@@ -28,7 +28,7 @@ exports.cssLoaders=function(options){
     }
 
     function generateLoaders(loader,loaderOptions){
-        const loaders=options.usePostCSS?[styleLoaders,cssLoader,postcssLoader]:[styleLoaders,cssLoader];
+        const loaders=options.usePostCSS?[cssLoader,postcssLoader]:[cssLoader];
         if(loader){
             loaders.push({
                 loader:loader+'-loader',
