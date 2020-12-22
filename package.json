@@ -48,7 +48,8 @@
   },
   "scripts": {
     "build": "node build/build.js",
-    "dev": "webpack serve --inline --progress --config build/webpack.dev.conf.js"
+    "dev": "webpack serve --inline --progress --config build/webpack.dev.conf.js",
+    "report": "npm run build --report"
   },
   "author": "",
   "license": "ISC"
