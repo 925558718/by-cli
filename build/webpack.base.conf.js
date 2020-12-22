@@ -22,12 +22,9 @@ module.exports = {
         }
     },
     node: {
-        setImmediate: false,
-        dgram: 'empty',
-        fs: 'empty',
-        net: 'empty',
-        tls: 'empty',
-        child_process: 'empty'
+        __dirname:false,
+        __filename:false,
+        global:false
     },
     module:{
         rules:[

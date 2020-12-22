@@ -1,66 +1,69 @@
-
-const config=require('../config')
+const config = require('../config')
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-exports.assetsPath=function(_path){
-    const assetsSubDirectory=process.env.NODE_ENV==='production'
-        ?config.build.assetsSubDirectory
-        :config.dev.assetsSubDirectory
+exports.assetsPath = function (_path) {
+    const assetsSubDirectory = process.env.NODE_ENV === 'production' ?
+        config.build.assetsSubDirectory :
+        config.dev.assetsSubDirectory
     return path.posix.join(assetsSubDirectory, _path);
 }
-exports.cssLoaders=function(options){
-    options=options||{};
-    const styleLoaders={
-        loader:'style-loader',
+exports.cssLoaders = function (options) {
+    options = options || {};
+    const styleLoader = {
+        loader: 'style-loader',
     }
-    const cssLoader={
-        loader:'css-loader',
-        options:{
-            sourceMap:options.sourceMap
+    const cssLoader = {
+        loader: 'css-loader',
+        options: {
+            sourceMap: options.sourceMap
         }
     }
-    const postcssLoader={
-        loader:'postcss-loader',
-        options:{
-            sourceMap:options.sourceMap,
-            autoprefixer: {browsers: 'last 5 version'}
+    const postcssLoader = {
+        loader: 'postcss-loader',
+        options: {
+            sourceMap: options.sourceMap,
+            postcssOptions: {
+
+            },
+            execute: false
         }
     }
 
-    function generateLoaders(loader,loaderOptions){
-        const loaders=options.usePostCSS?[cssLoader,postcssLoader]:[cssLoader];
-        if(loader){
+    function generateLoaders(loader, loaderOptions) {
+        const loaders = process.env.NODE_ENV !== 'production' ? [styleLoader, cssLoader] : [cssLoader];
+        options.usePostCSS ? loaders.push(postcssLoader) : '';
+        if (loader) {
             loaders.push({
-                loader:loader+'-loader',
-                options:Object.assign({},loaderOptions,{
-                    sourceMap:options.sourceMap
+                loader: loader + '-loader',
+                options: Object.assign({}, loaderOptions, {
+                    sourceMap: options.sourceMap
                 })
             })
         }
-        if(options.extract){
+        if (options.extract) {
             loaders.unshift({
-                loader:MiniCssExtractPlugin.loader,
-                options:Object.assign({},loaderOptions,{
-                    sourceMap:options.sourceMap
+                loader: MiniCssExtractPlugin.loader,
+                options: Object.assign({}, loaderOptions, {
+                    publicPath: config.build.assetsPublicPath
                 })
             })
         }
         return loaders
     }
     return {
-        css:generateLoaders(),
-        postcss:generateLoaders(),
-        stylus:generateLoaders('stylus')
+        css: generateLoaders(),
+        postcss: generateLoaders(),
+        stylus: generateLoaders('stylus')
     }
 }
-exports.styleLoaders=function(options){
-    const output=[];
-    const loaders=exports.cssLoaders(options);
-    for(const extension in loaders){
-        const loader=loaders[extension];
+exports.styleLoaders = function (options) {
+    const output = [];
+    const loaders = exports.cssLoaders(options);
+    for (const extension in loaders) {
+        const loader = loaders[extension];
         output.push({
-            test:new RegExp('\\.'+extension+'$'),
-            use:loader
+            test: new RegExp('\\.' + extension + '$'),
+            use: loader
         })
     }
     return output;
