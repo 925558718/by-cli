@@ -19,7 +19,11 @@ module.exports = {
         extensions: ['.js', '.json','.jsx','.css'],
         alias:{
             '@':resolve('src')
-        }
+        },
+        modules: [
+            resolve('src'),
+            resolve('node_modules')
+        ],
     },
     node: {
         __dirname:false,
