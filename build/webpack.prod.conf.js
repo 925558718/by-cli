@@ -4,13 +4,13 @@ const {
 const baseWebpackConfig = require('./webpack.base.conf');
 const TerserPlugin = require("terser-webpack-plugin");
 const utils = require('./utils')
-const path = require('path')
 const config = require('../config')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const progress = require('progress-bar-webpack-plugin');
+const chalk = require('chalk');
 const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin');
@@ -34,22 +34,23 @@ const webpackConfig = merge(baseWebpackConfig, {
         chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
     },
     plugins: [
+        new progress({
+            format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+            clear: true
+        }),
         new CleanWebpackPlugin(),
         new webpack.DefinePlugin({
             'process.env': env
         }),
-
         new OptimizeCSSPlugin({
-            cssProcessorOptions: config.build.productionSourceMap ?
-                {
-                    safe: true,
-                    map: {
-                        inline: false
-                    }
-                } :
-                {
-                    safe: true
+            cssProcessorOptions: config.build.productionSourceMap ? {
+                safe: true,
+                map: {
+                    inline: false
                 }
+            } : {
+                safe: true
+            }
         }),
         new MiniCssExtractPlugin({
             filename: utils.assetsPath("css/[name].css"),
@@ -89,18 +90,10 @@ const webpackConfig = merge(baseWebpackConfig, {
 
 if (config.build.productionGzip) {
     const CompressionWebpackPlugin = require('compression-webpack-plugin');
-
     webpackConfig.plugins.push(
         new CompressionWebpackPlugin({
-            asset: '[path].gz[query]',
-            algorithm: 'gzip',
-            test: new RegExp(
-                '\\.(' +
-                config.build.productionGzipExtensions.join('|') +
-                ')$'
-            ),
-            threshold: 10240,
-            minRatio: 0.8
+            test: /\.js(\?.*)?$/i,
+            filename: '[path][base].gz'
         })
     )
 }
