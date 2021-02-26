@@ -20,4 +20,4 @@ class FormItem extends React.Component {
     }
 }
 
-export default FormItem
+export default FormItem;

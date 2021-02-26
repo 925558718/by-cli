@@ -1,11 +1,5 @@
 const path = require('path')
 const config = require('../config')
-const HappyPack = require('happypack');
-const os = require('os');
-const happyThreadPool = HappyPack.ThreadPool({
-    size: os.cpus().length
-}).size;
-
 function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
@@ -40,7 +34,9 @@ module.exports = {
                 test: /\.js|jsx$/,
                 use: [{
                     loader: 'babel-loader',
-                    loader: 'happypack/loader?id=jsx'
+                    options: {
+                        presets: ['env']
+                    }
 
                 }],
                 exclude: /node_modules/
@@ -53,12 +49,5 @@ module.exports = {
                 }]
             }
         ]
-    },
-    plugins: [
-        new HappyPack({
-            id: 'jsx',
-            threads: happyThreadPool,
-            loaders: ['babel-loader?presets[]=env'],
-        })
-    ]
+    }
 }

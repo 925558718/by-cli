@@ -1,18 +1,18 @@
 import React from 'react'
-import Todo from '@/components/Todo'
-import Vue from '@/assets/vue.jpg'
+import Father from "./components/FunctionComponent/Father";
 class App extends React.Component {
-    constructor(){
-      super();
-    }
-    render() {
-      return (
-        <div>
-            <img style={{height:20+'px',height:20+'px'}}  src={Vue}></img>
-            <Todo></Todo>
-        </div>
-      )
-    }
+  constructor(props) {
+    super(props);
   }
+  render() {
+    return (
+      <div>
+        <Father></Father>
+      </div>
+
+    )
+  }
+
+}
 
 export default App;
