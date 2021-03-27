@@ -1,0 +1,10 @@
+.swiper
+    height 200px
+    width: 200px
+    overflow hidden
+    .swiper-content
+        display flex
+        flex-direction row
+        .swiper-item
+            height: 100%
+            width: 100%
